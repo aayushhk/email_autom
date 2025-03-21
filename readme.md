@@ -70,15 +70,25 @@ npm start    # Run the frontend
 ```
 backend/
 │── main.py                     # FastAPI application entry point
+│── models/
+│   │── email_model.py         # Schema for emails
+│   │── ai_model.py            # AI model for categorization
+│   │── vector_db.py           # Vector database (FAISS, Pinecone, or ChromaDB)
+│── services/
+│   │── imap_sync.py           # IMAP email synchronization service
+│   │── email_categorization.py # AI-based email classification
 │── routes/
 │   │── email_routes.py         # Email sync endpoints
 │   │── slack_routes.py         # Slack notification endpoints
 │   │── search_routes.py        # Elasticsearch search endpoints
-│── utils/
-│   │── slack_utils.py          # Slack notification functions
-│   │── email_utils.py          # Email processing helpers
+│   │── webhook_routes.py       # Webhook endpoints
 │── database/
 │   │── elasticsearch_setup.py  # Elasticsearch connection
+│   │── db_connection.py        # Vector DB connection (FAISS/Pinecone)
+│── utils/
+│   │── email_utils.py          # Email processing helpers
+│   │── slack_utils.py          # Slack notification functions
+│   │── webhook_utils.py        # Webhook trigger functions
 │── .env                        # Environment variables
 │── docker-compose.yml          # Docker setup for Elasticsearch
 │── requirements.txt            # Dependencies
