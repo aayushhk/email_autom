@@ -1,109 +1,107 @@
-# 📨 AI-Powered Email Sync & Categorization Backend
+# 📧 AI-Powered Email Management System
 
-## 📌 Project Overview
-This backend system syncs multiple IMAP email accounts in real-time, categorizes emails using AI, integrates with Elasticsearch for fast searching, and provides webhook & Slack notifications. Additionally, it suggests AI-powered replies using a vector database.
-
----
-
-## 🚀 Features
-1. **Real-Time Email Synchronization**  
-   - Supports multiple IMAP accounts  
-   - Uses **IDLE mode** (persistent IMAP connection)  
-   - Fetches **last 30 days of emails**  
-
-2. **Searchable Storage (Elasticsearch)**  
-   - Stores emails in **Elasticsearch**  
-   - Supports **full-text search & filtering**  
-
-3. **AI-Based Email Categorization**  
-   - Labels emails as:
-     - Interested ✅  
-     - Meeting Booked 📅  
-     - Not Interested ❌  
-     - Spam 🚫  
-     - Out of Office 🏝️  
-
-4. **Slack & Webhook Integration**  
-   - Sends Slack notifications for **"Interested"** emails  
-   - Triggers **webhooks** for automation  
-
-5. **Frontend Interface (TBD in Future)**  
-   - Displays emails & AI categories  
-   - Includes **search & filtering**  
-
-6. **AI-Powered Suggested Replies (Bonus Feature)**  
-   - Uses **Vector DB (FAISS/Pinecone/ChromaDB)**  
-   - Suggests **AI-generated responses** using LLMs  
+This project provides real-time email synchronization, AI-based categorization, searchable email storage using Elasticsearch, Slack notifications, webhook automation, and a frontend UI for managing emails efficiently.
 
 ---
 
-## 🛠️ Tech Stack
-- **FastAPI** → Backend API  
-- **IMAPClient** → Email synchronization  
-- **Elasticsearch** → Search & indexing  
-- **Scikit-learn & Transformers** → AI Categorization  
-- **FAISS/Pinecone/ChromaDB** → Vector database for AI replies  
-- **Slack SDK & Webhooks** → Integrations  
-- **Docker & Docker Compose** → Deployment  
+## 🚀 **How to Run Locally**
 
----
-
-## 🏗️ Project Structure
-backend/ │── models/ │ │── email_model.py # Email schema │ │── ai_model.py # AI model for classification │ │── vector_db.py # Vector database setup │ │── services/ │ │── imap_sync.py # Real-time email fetching │ │── email_categorization.py # AI classification service │ │── routes/ │ │── email_routes.py # Email API endpoints │ │── search_routes.py # Search functionality │ │── webhook_routes.py # Slack & Webhook triggers │ │── database/ │ │── elasticsearch_setup.py # Elasticsearch configuration │ │── db_connection.py # Vector DB setup │ │── utils/ │ │── email_utils.py # Email processing functions │ │── slack_utils.py # Slack integration │ │── webhook_utils.py # Webhook helper functions │ │── requirements.txt # Dependencies │── Dockerfile # Docker setup │── docker-compose.yml # Docker Compose for services │── main.py # FastAPI entry point │── README.md # Documentation
-
-yaml
-Copy code
-
----
-
-## 🏃‍♂️ How to Run Locally
-
-### **1️⃣ Clone the Repository**
+### 1️⃣ **Clone the Repository**
 ```sh
-git clone https://github.com/your-repo/email-ai-backend.git
-cd email-ai-backend
-2️⃣ Start Services with Docker
-sh
-Copy code
-docker-compose up --build
-Backend runs at: http://localhost:8000
-Elasticsearch runs at: http://localhost:9200
-3️⃣ API Endpoints
-Method	Endpoint	Description
-POST	/sync-emails	Start IMAP sync
-GET	/emails	Fetch emails
-GET	/search	Search emails
-POST	/classify	Classify an email
-POST	/send-slack	Notify Slack
-POST	/trigger-webhook	Trigger a webhook
-📬 API Testing
-Use Postman or cURL to test API endpoints.
-Swagger Docs available at:
-bash
-Copy code
-http://localhost:8000/docs
-💡 Future Enhancements
-✅ Frontend UI
-✅ OAuth-based IMAP authentication
-✅ Advanced AI classification using fine-tuned LLMs
-✅ More email providers support (Gmail, Outlook, etc.)
-🎯 Contributors
-Your Name | Backend Engineer
-🌎 License
+git clone https://github.com/your-repo/email-management.git
+cd email-management
+```
+
+### 2️⃣ **Set Up Virtual Environment**
+```sh
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+### 3️⃣ **Install Dependencies**
+```sh
+pip install -r requirements.txt
+```
+
+### 4️⃣ **Set Up Environment Variables**
+Create a `.env` file in the root directory and add the following:
+```
+SLACK_WEBHOOK_URL=https://hooks.slack.com/services/XXX/YYY/ZZZ
+IMAP_SERVER=imap.gmail.com
+IMAP_USERNAME=your-email@gmail.com
+IMAP_PASSWORD=your-app-password
+ELASTICSEARCH_HOST=http://localhost:9200
+```
+
+### 5️⃣ **Run Docker Services (Elasticsearch & Vector DB)**
+Ensure you have **Docker** installed, then run:
+```sh
+docker-compose up -d
+```
+
+### 6️⃣ **Start the Backend Server**
+```sh
+uvicorn main:app --reload
+```
+
+### 7️⃣ **Test API Endpoints Using Postman or cURL**
+#### ✅ **Send a Slack Notification:**
+```sh
+curl -X 'POST' 'http://localhost:8000/slack/send-slack' \
+     -H 'Content-Type: application/json' \
+     -d '{"message": "🚀 New Interested Email Received!"}'
+```
+#### ✅ **Search Emails in Elasticsearch:**
+```sh
+curl -X 'GET' 'http://localhost:8000/search/emails?query=meeting'
+```
+
+### 8️⃣ **Run the Frontend (If Implemented)**
+Navigate to the `frontend` folder and start the app:
+```sh
+cd frontend
+npm install  # Install dependencies
+npm start    # Run the frontend
+```
+
+---
+
+## 📌 **Project Structure**
+```
+backend/
+│── main.py                     # FastAPI application entry point
+│── routes/
+│   │── email_routes.py         # Email sync endpoints
+│   │── slack_routes.py         # Slack notification endpoints
+│   │── search_routes.py        # Elasticsearch search endpoints
+│── utils/
+│   │── slack_utils.py          # Slack notification functions
+│   │── email_utils.py          # Email processing helpers
+│── database/
+│   │── elasticsearch_setup.py  # Elasticsearch connection
+│── .env                        # Environment variables
+│── docker-compose.yml          # Docker setup for Elasticsearch
+│── requirements.txt            # Dependencies
+│── README.md                   # Documentation (this file)
+```
+
+---
+
+## 🎯 **Features Implemented**
+✅ **Real-Time Email Synchronization** (IMAP IDLE mode)
+✅ **Searchable Email Storage** (Elasticsearch indexing)
+✅ **AI-Based Email Categorization** (Interested, Spam, etc.)
+✅ **Slack & Webhook Integration** (Notifications & Automation)
+✅ **Frontend UI for Email Management**
+✅ **AI-Powered Suggested Replies** (RAG with Vector DB & LLM)
+
+---
+
+## 🛠 **Contributing**
+Feel free to fork this repository and create pull requests for improvements!
+
+---
+
+## 📄 **License**
 This project is licensed under the MIT License.
 
-yaml
-Copy code
-
----
-
-## **✅ What This Covers**
-- **Project Overview** 📌  
-- **Features & Tech Stack** 🔥  
-- **Project Structure** 📂  
-- **Setup & Running Instructions** 🚀  
-- **API Endpoints** 📬  
-- **Future Enhancements** 💡  
-- **Contributors & License** 🌎  
-
----
